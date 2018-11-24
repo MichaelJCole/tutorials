@@ -9,13 +9,13 @@ We'll write a test that exercises one of our Methods (which form the "write" par
 To do so, we'll add a [test driver](http://guide.meteor.com/testing.html#test-driver) for the [Mocha](https://mochajs.org) JavaScript test framework:
 
 ```bash
-meteor add practicalmeteor:mocha
+meteor add cultofcoders:mocha
 ```
 
 We can now run our app in "test mode" by calling out a special command and specifying to use the driver (you'll need to stop the regular app from running, or specify an alternate port with `--port XYZ`):
 
 ```bash
-meteor test --driver-package practicalmeteor:mocha
+meteor test --driver-package cultofcoders:mocha
 ```
 
 If you do so, you should see an empty test results page in your browser window.
