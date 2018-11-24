@@ -6,7 +6,7 @@ You can read more about collections in the [Collections article](http://guide.me
 
 Creating a new collection is as easy as calling `MyCollection = new Mongo.Collection("my-collection");` in your JavaScript. On the server, this sets up a MongoDB collection called `my-collection`; on the client, this creates a cache connected to the server collection. We'll learn more about the client/server divide in step 12, but for now we can write our code with the assumption that the entire database is present on the client.
 
-To create the collection, we define a new `tasks` module that creates a Mongo collection and exports it:
+To create the collection, we define a new `tasks` module that creates a MongoDB collection and exports it:
 
 {{> DiffBox tutorialName=tutorialName step="3.1"}}
 
@@ -22,21 +22,43 @@ We need to import that module on the server (this creates the MongoDB collection
 
 ### Inserting tasks from the server-side database console
 
-Items inside collections are called _documents_. Let's use the server database console to insert some documents into our collection. In a new terminal tab, go to your app directory and type:
+[MongoDB](https://www.mongodb.com/what-is-mongodb) is a NoSQL database.  MongoDB stores _documents_  (similar to SQL rows) inside _collections_ (similar to SQL tables). 
+
+Let's use the server database console to insert some documents into our collection. In a new terminal tab, go to your app directory, and type:
 
 ```bash
 meteor mongo
 ```
 
-This opens a console into your app's local development database. Into the prompt, type:
+This command uses your Meteor app's connection information to start the MongoDB client.  
+
+> If you can't connect, make sure your Meteor app is running.
+> 
+> Meteor packages the Mongo server and automatically starts a MongoDB database for your app.  To use a production MongoDB database, configure the [MONGO\_URL and MONGO\_OPLOG\_URL environment variables](https://docs.meteor.com/api/collections.html#mongo_url) 
+
+Into the Mongo client, type:
 
 ```js
+# Insert a new todo.  The browser should update immediately.
 db.tasks.insert({ text: "Hello world!", createdAt: new Date() });
+
+# Writes to MongoDB from non-Meteor processes will update your Meteor browser app reactively (automatically).
+db.tasks.insert({ text: "Hello moon!", createdAt: new Date() });
+
+# List tasks
+db.tasks.find()
+
+# When you are ready ...
+quit()
 ```
 
-In your web browser, you will see the UI of your app immediately update to show the new task. You can see that we didn't have to write any code to connect the server-side database to our front-end code &mdash; it just happened automatically.
+In your web browser, you will see the UI of your app immediately update to show the new task.  
 
-Insert a few more tasks from the database console with different text. In the next step, we'll see how to add functionality to our app's UI so that we can add tasks without using the database console.
+A Meteor server monitors real-time changes to MongoDB using [Oplog Tailing](https://docs.meteor.com/api/collections.html#mongo_url).  The Meteor server pushes changes to connected browser clients using [DDP](https://guide.meteor.com/accounts.html#userid-ddp).
+
+We didn't have to write any code to connect the server-side database to our front-end code &mdash; it just happened automatically.
+
+In the next step, we'll extend our app's UI to add tasks from the browser.
 
 {{/template}}
 
